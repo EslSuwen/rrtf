@@ -1,6 +1,6 @@
 package com.cqjtu.rrtf.config;
 
-import com.cqjtu.cssl.entity.User;
+import com.cqjtu.rrtf.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
