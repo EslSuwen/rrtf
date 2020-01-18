@@ -1,13 +1,14 @@
-# Getting Started
+# 开发日志：
 
-### Reference Documentation
-For further reference, please consider the following sections:
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.2.RELEASE/gradle-plugin/reference/html/)
 
-### Additional Links
-These additional references should also help you:
+## 0118
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
+1. 整合登录为frame，在主页 ifr 中显示(取消)。
+2. 完成注册登录动态验证码检测。
+3. 增加注册登录数据有效性检测。
+
+## init 
+
+完成登录注册
 

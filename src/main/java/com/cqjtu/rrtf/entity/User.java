@@ -1,6 +1,5 @@
 package com.cqjtu.rrtf.entity;
 
-
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
@@ -27,6 +26,17 @@ public class User implements Serializable {
 
     @Column(name = "user_email")
     private String userEmail;
+
+    public User(String userNo, String userName, String userPwd, String userTab, String userEmail) {
+        this.userNo = userNo;
+        this.userName = userName;
+        this.userPwd = userPwd;
+        this.userTab = userTab;
+        this.userEmail = userEmail;
+    }
+
+    public User() {
+    }
 
     public String getUserNo() {
         return userNo;
@@ -70,7 +80,8 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return this.userNo + this.userName + this.userPwd + this.userTab;
+        return "userNo: " + this.userNo + "userName: " + this.userName + "userPwd: "
+                + this.userPwd + "userEmail:" + this.userEmail + "userTab: " + this.userTab;
     }
 
 

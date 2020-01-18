@@ -38,7 +38,8 @@ public class UserController {
 
         //默认用户的权限为普通用户
         user.setUserTab("2");
-        userService.addUser(user);
+        System.out.println(user);
+//        userService.addUser(user);
 
         //获取session并将userName存入session对象
         HttpSession session = request.getSession();
