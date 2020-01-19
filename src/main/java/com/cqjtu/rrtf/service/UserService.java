@@ -46,11 +46,11 @@ public interface UserService {
     /**
      * 获取一条用户记录
      *
-     * @param userId
+     * @param User
      * @return User
      *
      */
-    User getUserById(Integer userId);
+    User getOneUser(User User);
 
     /**
      *  获取所有用户记录

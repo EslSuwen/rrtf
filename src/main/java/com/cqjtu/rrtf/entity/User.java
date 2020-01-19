@@ -27,6 +27,22 @@ public class User implements Serializable {
     @Column(name = "user_email")
     private String userEmail;
 
+    @Column(name = "user_sign")
+    private String userSign;
+
+    @Column(name = "user_sex")
+    private String userSex;
+
+    @Column(name = "user_tel")
+    private String userTel;
+
+    @Column(name = "user_birth")
+    private String userBirth;
+
+    @Column(name = "user_avatar")
+    private byte[] userAvatar;
+
+
     public User(String userNo, String userName, String userPwd, String userTab, String userEmail) {
         this.userNo = userNo;
         this.userName = userName;
@@ -78,10 +94,63 @@ public class User implements Serializable {
         this.userEmail = userEmail;
     }
 
+    public User(String userNo, String userName, String userPwd, String userTab, String userEmail, String userSign, String userSex, String userTel, String userBirth, byte[] userAvatar) {
+        this.userNo = userNo;
+        this.userName = userName;
+        this.userPwd = userPwd;
+        this.userTab = userTab;
+        this.userEmail = userEmail;
+        this.userSign = userSign;
+        this.userSex = userSex;
+        this.userTel = userTel;
+        this.userBirth = userBirth;
+        this.userAvatar = userAvatar;
+    }
+
+    public String getUserSign() {
+        return userSign;
+    }
+
+    public void setUserSign(String userSign) {
+        this.userSign = userSign;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public String getUserTel() {
+        return userTel;
+    }
+
+    public void setUserTel(String userTel) {
+        this.userTel = userTel;
+    }
+
+    public String getUserBirth() {
+        return userBirth;
+    }
+
+    public void setUserBirth(String userBirth) {
+        this.userBirth = userBirth;
+    }
+
+    public byte[] getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(byte[] userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+
     @Override
     public String toString() {
-        return "userNo: " + this.userNo + "userName: " + this.userName + "userPwd: "
-                + this.userPwd + "userEmail:" + this.userEmail + "userTab: " + this.userTab;
+        return "userNo: " + this.userNo + " userName: " + this.userName + " userPwd: "
+                + this.userPwd + "\nuserEmail:" + this.userEmail + " userTab: " + this.userTab;
     }
 
 

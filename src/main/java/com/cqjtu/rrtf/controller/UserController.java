@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.soap.SOAPBinding;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -49,6 +50,22 @@ public class UserController {
 
     }
 
+    @GetMapping("/info")
+    public String userInfo(Map<String, Object> map, HttpServletRequest request) {
+
+        map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+
+        return "个人资料/普通用户-首页";
+    }
+
+    @GetMapping("/profile")
+    public String userprofile(Map<String, Object> map, HttpServletRequest request) {
+
+        map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+
+        return "个人资料/用户中心-个人资料";
+    }
+
     @GetMapping("/list")
     public String list(Map<String, Object> map, @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr) {
 
@@ -82,17 +99,28 @@ public class UserController {
     }
 
     @GetMapping(value = "/preUpdate/{userNo}")
-    public String preUpdate(@PathVariable("userNo") Integer userNo, Map<String, Object> map) {
-        System.out.println(userService.getUserById(userNo));
-        map.put("user", userService.getUserById(userNo));
+    public String preUpdate(@PathVariable("userNo") String userNo, Map<String, Object> map) {
+        System.out.println(userService.get(userNo));
+        map.put("user", userService.get(userNo));
 
         return "user/update_user";
     }
 
     @RequestMapping(value = "/update")
-    public String update(User user) {
+    public String update(User user, HttpServletRequest request) {
 
-        userService.updateUser(user);
-        return "redirect:/user/list";
+        User oldUser = (User)request.getSession().getAttribute("USER_SESSION_KEY");
+        oldUser.setUserName(user.getUserName());
+        oldUser.setUserEmail(user.getUserEmail());
+        oldUser.setUserBirth(user.getUserBirth());
+        oldUser.setUserSign(user.getUserSign());
+        oldUser.setUserTel(user.getUserTel());
+        oldUser.setUserSex(user.getUserSex());
+
+        userService.updateUser(oldUser);
+
+        request.getSession().setAttribute("USER_SESSION_KEY",oldUser);
+
+        return "redirect:/user/profile";
     }
 }

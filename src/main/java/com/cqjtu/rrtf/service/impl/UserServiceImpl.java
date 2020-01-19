@@ -20,9 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User get(String userNo) {
 
-        User user = null;
-        user = userMapper.selectByPrimaryKey(userNo);
-        return user;
+        return userMapper.selectByPrimaryKey(userNo);
 
     }
 
@@ -40,16 +38,16 @@ public class UserServiceImpl implements UserService {
 /**
  * 测试 mapper.select()
  *
-        User user = new User();
-        user.setUserNo("000007");
-        user.setUserName("厂子7");
+ User user = new User();
+ user.setUserNo("000007");
+ user.setUserName("厂子7");
 
-        List<User> userList = userMapper.select(user);
+ List<User> userList = userMapper.select(user);
 
-        Set<User> userSet = new TreeSet<>(Comparator.comparing(User::getUserName));
-        userSet.addAll(userList);
-        return new ArrayList<>(userSet);
-*/
+ Set<User> userSet = new TreeSet<>(Comparator.comparing(User::getUserName));
+ userSet.addAll(userList);
+ return new ArrayList<>(userSet);
+ */
 
     }
 
@@ -68,9 +66,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Integer userId) {
+    public User getOneUser(User user) {
 
-        return userMapper.selectByPrimaryKey(userId);
+        return userMapper.selectOne(user);
 
     }
 

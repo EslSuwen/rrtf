@@ -52,7 +52,7 @@
         <div class="logo"><a th:href="@{/index}"><img th:src="@{/img/logo.png}"></a></div>
         <div class="headerUser">
             <ul>
-                <li class="headerUserPic"><a href="###"><img th:src="@{/img/30x30.png}"></a></li>
+                <li class="headerUserPic"><a href="###"><img th:src="@{/img/user.png}"></a></li>
                 <li class="headerUserName"><a href="个人资料/普通用户-首页.html" th:text="${session.USER_SESSION_KEY.userName}"
                                               target="ifr"></a></li>
                 <li class="headerUserNotice">通知<a href="###">14</a></li>
@@ -87,10 +87,10 @@
         <div class="login_left">
             <h3 class="login_h3">欢迎登录人人托福</h3>
             <form th:action="@{/security/login}" method="post" th:object="${user}">
-                <div class="login_sr"><input type="text" id="userNo" name="userNo" class="login_inputYhm"
-                                             placeholder="用户账号"></div>
+                <div class="login_sr"><input type="text" id="userName" name="userName" class="login_inputYhm"
+                                             placeholder="用户账号或邮箱"></div>
                 <div class="login_sr"><input type="password" id="userPwd" name="userPwd" class="login_inputMm"
-                                             placeholder="用户密码"></div>
+                                             placeholder="密码"></div>
                 <div class="login_sr fn-clear"><input id="inputCode" style="float:left;" type="text"
                                                       class="login_inputYzm" placeholder="验证码">
                     <div class="login_inputYzmPic">
@@ -114,6 +114,7 @@
         </div>
     </div>
 </div>
+
 <div class="flink">
     <div class="flinkTop"></div>
     <div class="flinkBody">
@@ -213,10 +214,10 @@
                 return false;
             }
             // 信息完整检测
-            console.log("userName: " + document.getElementById("userNo").value);
+            console.log("userName: " + document.getElementById("userName").value);
             console.log("userPwd: " + document.getElementById("userPwd").value);
-            console.log(document.getElementById("userNo").value.length <= 0)
-            if (document.getElementById("userNo").value.length <= 0) {
+            console.log(document.getElementById("userName").value.length <= 0)
+            if (document.getElementById("userName").value.length <= 0) {
                 alert("请输入用户名或邮箱！");
                 return false;
             }
