@@ -21,6 +21,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author suwen
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -47,11 +50,11 @@ public class UserController {
         //默认用户的权限为普通用户
         user.setUserTab("2");
         System.out.println(user);
-//        userService.addUser(user);
-
+        userService.addUser(user);
+        System.out.println(userService.getOneUser(user));
         //获取session并将userName存入session对象
         HttpSession session = request.getSession();
-        session.setAttribute("USER_SESSION_KEY", user);
+        session.setAttribute("USER_SESSION_KEY", userService.getOneUser(user));
 
         return "redirect:/";
 
@@ -65,17 +68,12 @@ public class UserController {
         System.out.println(user);
         //读取文件数据，转成字节数组
 
-
         if (file != null) {
             System.out.println("file is not null");
             user.setUserAvatar(file.getBytes());
             userService.upDateUserAvatar(user.getUserNo(), file.getBytes());
         }
 
-
-       /* //获取session并将userName存入session对象
-        HttpSession session = request.getSession();
-        session.setAttribute("USER_SESSION_KEY", user);*/
         map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
 
         return "个人资料/用户中心-个人资料";
@@ -89,12 +87,6 @@ public class UserController {
         byte[] userAvatar = userService.getUserAvatar(user.getUserNo());
 
         if (userAvatar == null) {
-            /*String path = request.getSession().getServletContext().getRealPath("/img/240x240.png");
-            System.out.println("path: " + path);
-            FileInputStream fis = new FileInputStream(new File(path));
-
-            userAvatar = new byte[fis.available()];
-            fis.read(userAvatar);*/
             userAvatar = userService.getUserAvatar("-1");
         }
 
@@ -181,5 +173,25 @@ public class UserController {
         request.getSession().setAttribute("USER_SESSION_KEY", oldUser);
 
         return "redirect:/user/profile";
+    }
+
+    /**
+     * @param user
+     * @param request
+     * @description: 用户更新密码
+     * @return: java.lang.String
+     * @author: suwen
+     * @time: 2020/1/21 7:57 下午
+     */
+    @RequestMapping(value = "/updatePwd")
+    public String updatePwd(String newPwd, String oldPwd, HttpServletRequest request) {
+
+        User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+
+        userService.upDateUserPwd(oldUser.getUserNo(), newPwd);
+
+        request.getSession().setAttribute("USER_SESSION_KEY", userService.get(oldUser.getUserNo()));
+
+        return "redirect:/";
     }
 }

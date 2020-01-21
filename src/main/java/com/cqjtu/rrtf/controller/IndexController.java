@@ -3,6 +3,7 @@ package com.cqjtu.rrtf.controller;
 import com.cqjtu.rrtf.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -19,7 +20,7 @@ public class IndexController {
         System.out.println(user);
         //如果session中没有user，表示没登陆
         if (user == null) {
-            user = new User("-1","游客","-1","-1","-1");
+            user = new User("-1", "游客", "-1", "-1", "-1");
             HttpSession session = request.getSession();
             session.setAttribute("USER_SESSION_KEY", user);
             System.out.println(user);
@@ -29,7 +30,7 @@ public class IndexController {
 
     @GetMapping("/index")
     public String index() {
-        return "首页";
+        return "redirect:/";
     }
 
 }

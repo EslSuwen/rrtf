@@ -138,26 +138,34 @@
     </div>
 
     <div class="userCenter" style="display: none;" id="passwordChangeContent">
-        <dl>
-            <dt>密码：</dt>
-            <dd><input name="" type="text" class="userCenter_input"></dd>
-        </dl>
-        <dl>
-            <dt>新密码：</dt>
-            <dd><input name="" type="text" class="userCenter_input"></dd>
-        </dl>
-        <dl>
-            <dt>确认新密码：</dt>
-            <dd><input name="" type="text" class="userCenter_input"></dd>
-        </dl>
-        <dl>
-            <dt></dt>
-            <dd>
-                <a href="###" class="userCenter_save">保存</a>
-            </dd>
-        </dl>
+        <form th:action="@{/user/updatePwd}">
+            <dl>
+                <dt>密码：</dt>
+                <dd><input id="pwd0" name="oldPwd" type="text" class="userCenter_input"></dd>
+                <input id="oldPwd" th:value="${session.USER_SESSION_KEY.userPwd}" style="display: none">
+            </dl>
+            <dl>
+                <dt>新密码：</dt>
+                <dd><input name="newPwd" onkeyup="validate()" id="pwd1" type="text" class="userCenter_input"></dd>
+            </dl>
+            <dl>
+                <dt>确认新密码：</dt>
+                <dd><input name="" onkeyup="validate()" id="pwd2" type="text" class="userCenter_input"></dd>
+            </dl>
+            <dl>
+                <span id="tips"></span>
+            </dl>
+            <dl>
+                <dt></dt>
+                <dd>
+                    <a onclick="validatePwd()" href="###" class="userCenter_save">保存</a>
+                </dd>
+            </dl>
+            <div>
+                <input name="confirm" id="confirmUpdatePwd" type="submit" value="确认更改" style="display: none">
+            </div>
+        </form>
     </div>
-
     <div class="userTX" style="display: none;" id="imgUploadContent">
         <div class=" fn-clear">
             <a class="userTX_b" onclick="$('input[name=\'userAvatarUpload\']').click();" href="###">头像选择</a>
@@ -214,6 +222,42 @@
     });
 </script>
 <script th:inline="javascript">
+
+    // 验证当前输入的密码
+    function validatePwd() {
+        var oldPwd = document.getElementById("oldPwd").value;
+        var pw0 = document.getElementById("pwd0").value;
+        console.log(oldPwd + " : " + pw0)
+        if (oldPwd !== pw0) {
+            alert("请输入正确的当前密码！")
+            document.getElementById("confirmUpdatePwd").disabled = true;
+        } else if (document.getElementById("pwd1").value.length === 0) {
+            alert("请输入新的密码！")
+            document.getElementById("confirmUpdatePwd").disabled = true;
+        } else if (validate()) {
+            alert("修改成功！")
+            document.getElementById("confirmUpdatePwd").disabled = false;
+            $('input[name=\'confirm\']').click();
+        }
+    }
+
+    // 修改密码有效性检测
+    function validate() {
+
+        var pwd1 = document.getElementById("pwd1").value;
+        var pwd2 = document.getElementById("pwd2").value;
+        <!-- 对比两次输入的密码 -->
+        if (pwd1 === pwd2) {
+            document.getElementById("tips").innerHTML = "<font color='green'>两次密码相同</font>";
+            document.getElementById("confirmUpdatePwd").disabled = false;
+            return true;
+        } else {
+            document.getElementById("tips").innerHTML = "<font color='green'>两次密码不同</font>";
+            document.getElementById("confirmUpdatePwd").disabled = true;
+            return false;
+        }
+    }
+
     $(function () {
         $("#userAvatarUpload").change(function (e) {
             for (var i = 0; i < e.target.files.length; i++) {

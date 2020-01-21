@@ -22,10 +22,10 @@
 
 <div class="doc1180">
     <div class="header">
-        <div class="logo"><a th:href="@{/index}"><img th:src="@{/img/logo.png}"></a></div>
+        <div class="logo"><a th:href="@{/}"><img th:src="@{/img/logo.png}"></a></div>
         <div class="headerUser">
             <ul>
-                <li class="headerUserPic"><a th:href="@{/user/info}"><img th:src="@{/user/getAvatar}" target="ifr"></a>
+                <li class="headerUserPic"><a th:href="@{/user/info}" target="ifr"><img th:src="@{/user/getAvatar}"></a>
                 </li>
                 <li class="headerUserName"><a th:href="@{/user/info}" th:text="${session.USER_SESSION_KEY.userName}"
                                               target="ifr"></a></li>
@@ -35,6 +35,7 @@
         <div class="headerLink">
             <a th:href="@{/security/toLogin}" target="ifr" class="###">登录</a>
             <a th:href="@{/user/toInput}" target="ifr" class="###">注册</a>
+            <a th:href="@{/security/logout}" class="###">登出</a>
         </div>
     </div>
 </div>

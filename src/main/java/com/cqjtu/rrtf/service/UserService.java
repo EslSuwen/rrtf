@@ -5,6 +5,9 @@ import com.cqjtu.rrtf.entity.User;
 import java.util.List;
 
 
+/**
+ * @author suwen
+ */
 public interface UserService {
 
     /**
@@ -46,11 +49,11 @@ public interface UserService {
     /**
      * 获取一条用户记录
      *
-     * @param User
+     * @param user
      * @return User
      *
      */
-    User getOneUser(User User);
+    User getOneUser(User user);
 
     /**
      *  获取所有用户记录
@@ -75,5 +78,15 @@ public interface UserService {
      *
      */
     byte[] getUserAvatar(String userNo);
+
+    /**
+     * @param userNo
+     * @param pwd
+     * @description: 更新用户密码
+     * @return: void
+     * @author: suwen
+     * @time: 2020/1/21 8:40 下午
+     */
+    void upDateUserPwd(String userNo, String pwd);
 }
 

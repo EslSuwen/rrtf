@@ -14,6 +14,9 @@ import javax.xml.bind.SchemaOutputResolver;
 import java.util.Map;
 
 
+/**
+ * @author suwen
+ */
 @Controller
 @RequestMapping("/security")
 public class SecurityController {
@@ -73,9 +76,11 @@ public class SecurityController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
 
-        return "redirect:/security/toLogin";
+        request.getSession().setAttribute("USER_SESSION_KEY", null);
+
+        return "redirect:/";
 
     }
 

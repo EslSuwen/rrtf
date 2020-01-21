@@ -11,6 +11,9 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.List;
 
 
+/**
+ * @author suwen
+ */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
@@ -108,14 +111,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public byte[] getUserAvatar(String userNo) {
 
-        byte[] avatar=null;
-        try{
-            avatar=userMapper.selectByPrimaryKey(userNo).getUserAvatar();
-        }
-        catch (Exception e) {
+        byte[] avatar = null;
+        try {
+            avatar = userMapper.selectByPrimaryKey(userNo).getUserAvatar();
+        } catch (Exception e) {
             System.out.println("使用默认游客头像");
         }
         return avatar;
 
+    }
+
+    /**
+     * @param userNo
+     * @param pwd
+     * @description: 更新用户密码
+     * @return: void
+     * @author: suwen
+     * @time: 2020/1/21 8:40 下午
+     */
+    @Override
+    public void upDateUserPwd(String userNo, String pwd) {
+        userMapper.upDateUserPwd(userNo, pwd);
     }
 }
