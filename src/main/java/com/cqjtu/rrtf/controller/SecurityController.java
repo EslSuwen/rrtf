@@ -57,7 +57,7 @@ public class SecurityController {
             session.setAttribute("USER_SESSION_KEY", user1);
 
             System.out.println("登录成功！");
-            return "首页";
+            return "redirect:/";
         }
 
 

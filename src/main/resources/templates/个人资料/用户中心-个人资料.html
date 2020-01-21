@@ -3,11 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>用户中心-上传头像</title>
-    <link href="../css/base.css" rel="stylesheet" type="text/css">
-    <link href="../css/toefl.css" rel="stylesheet" type="text/css">
-    <script src="../js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="js/userinfor.js">
-    </script>
+    <link th:href="@{/css/base.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/toefl.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/js/jquery-2.1.0.js}" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/userinfor.js}"></script>
 </head>
 <script>
 
@@ -33,49 +32,49 @@
     </div>
 
     <div class="userCenter" style="display: block;" id="basicContent">
-        <form th:action="@{/user/update}"  th:object="${user}">
-        <dl>
-            <dt>用户名：</dt>
-            <dd><input type="text" class="userCenter_input" th:field="*{userName}"
-                       placeholder="用户名"></dd>
-        </dl>
-        <dl>
-            <dt>性别：</dt>
-            <dd>
-                <div class="userCenter_radio" >
-                    <input type="radio" th:field="*{userSex}" value="男"><span>男</span>
-                    <input type="radio" th:field="*{userSex}" value="女"><span>女</span>
-                </div>
-            </dd>
-        </dl>
-        <dl>
-            <dt>邮箱：</dt>
-            <dd><input type="text" class="userCenter_input" th:field="*{userEmail}"></dd>
-        </dl>
-        <dl>
-            <dt>电话：</dt>
-            <dd><input type="text" class="userCenter_input" th:field="*{userTel}"></dd>
-        </dl>
-        <dl>
-            <dt>出生日期：</dt>
-            <dd>
-                <input type="date" class="userCenter_input" th:field="*{userBirth}">
-            </dd>
-        </dl>
-        <dl>
-            <dt>个性签名：</dt>
-            <dd><textarea id="area" placeholder="请输入个性签名" cols="" rows="" class="userCenter_t"
-                          th:field="*{userSign}"></textarea>
-                <p class=" userCenter_text"><span id="text-count">100</span>/100</p>
-            </dd>
-        </dl>
-        <dl>
-            <dt></dt>
-            <dd>
-                <a href="###" class="userCenter_save">保存</a>
-                <input type="submit">
-            </dd>
-        </dl>
+        <form th:action="@{/user/update}" th:object="${user}">
+            <dl>
+                <dt>用户名：</dt>
+                <dd><input type="text" class="userCenter_input" th:field="*{userName}"
+                           placeholder="用户名"></dd>
+            </dl>
+            <dl>
+                <dt>性别：</dt>
+                <dd>
+                    <div class="userCenter_radio">
+                        <input type="radio" th:field="*{userSex}" value="男"><span>男</span>
+                        <input type="radio" th:field="*{userSex}" value="女"><span>女</span>
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>邮箱：</dt>
+                <dd><input type="text" class="userCenter_input" th:field="*{userEmail}"></dd>
+            </dl>
+            <dl>
+                <dt>电话：</dt>
+                <dd><input type="text" class="userCenter_input" th:field="*{userTel}"></dd>
+            </dl>
+            <dl>
+                <dt>出生日期：</dt>
+                <dd>
+                    <input type="date" class="userCenter_input" th:field="*{userBirth}">
+                </dd>
+            </dl>
+            <dl>
+                <dt>个性签名：</dt>
+                <dd><textarea id="area" placeholder="请输入个性签名" cols="" rows="" class="userCenter_t"
+                              th:field="*{userSign}"></textarea>
+                    <p class=" userCenter_text"><span id="text-count">100</span>/100</p>
+                </dd>
+            </dl>
+            <dl>
+                <dt></dt>
+                <dd>
+                    <a href="###" class="userCenter_save">保存</a>
+                    <input type="submit">
+                </dd>
+            </dl>
 
         </form>
     </div>
@@ -161,22 +160,39 @@
 
     <div class="userTX" style="display: none;" id="imgUploadContent">
         <div class=" fn-clear">
-            <a class="userTX_b" href="###">本地上传</a>
+            <a class="userTX_b" onclick="$('input[name=\'userAvatarUpload\']').click();" href="###">头像选择</a>
         </div>
+
         <div class="userTXPic">
             <div class="userTXPicText">仅支持JPG、PNG格式且文件小于5M</div>
-            <div class="userTX_240x240"><img src="../img/240x240.png"></div>
+            <div class="userTX_240x240"><img id="userAvatar" alt="用户头像"
+                                             width="240"
+                                             height="240" th:src="@{/user/getAvatar}"></div>
+
         </div>
         <div class="userTXShow">
             <div class="fn-clear">
                 <div class="userTXPicText">您上传的图片会自动生成一下三种尺寸，请观察是否清晰</div>
-                <div class="userTX_150x150"><img src="../img/240x240.png"><span>150*150</span></div>
-                <div class="userTX_60x60"><img src="../img/240x240.png"><span>60*60</span></div>
-                <div class="userTX_30x30"><img src="../img/240x240.png"><span>30*30</span></div>
+                <div class="userTX_150x150"><img id="userAvatar150"
+                                                 width="150"
+                                                 height="150" th:src="@{/user/getAvatar}"><span>150*150</span></div>
+                <div class="userTX_60x60"><img id="userAvatar60"
+                                               width="60"
+                                               height="60" th:src="@{/user/getAvatar}"><span>60*60</span></div>
+                <div class="userTX_30x30"><img id="userAvatar30"
+                                               width="30"
+                                               height="30" th:src="@{/user/getAvatar}"><span>30*30</span></div>
             </div>
             <div class="userTXSave">
-                <a class="userTXSave" href="###">本地上传</a>
+                <a id=="userTXSave" class="userTXSave" onclick="$('input[name=\'userAvatarSubmit\']').click();"
+                   href="###">确认上传</a>
             </div>
+            <form th:action="@{/user/avatarUpload}" method="post" enctype="multipart/form-data">
+                <input class="userAvatarUpload" id="userAvatarUpload" type="file" name="userAvatarUpload"
+                       accept="image/x-png,image/jpeg,image/bmp"
+                       size="40" style="display: none;"/>
+                <input name="userAvatarSubmit" type="submit" value="上传头像" style="display: none;"/>
+            </form>
         </div>
     </div>
 
@@ -186,7 +202,7 @@
     //初始化字数
     $("#text-count").text(100 - $("#area").val().length);
     /*字数限制*/
-    $("#area").on("input propertychange", function() {
+    $("#area").on("input propertychange", function () {
         var $this = $(this),
             _val = $this.val(),
             count = "";
@@ -197,7 +213,30 @@
         $("#text-count").text(count);
     });
 </script>
+<script th:inline="javascript">
+    $(function () {
+        $("#userAvatarUpload").change(function (e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function (e) {
+                    var src = e.target.result;
+                    $("#userAvatar").attr("src", src);
+                    $("#userAvatar150").attr("src", src);
+                    $("#userAvatar60").attr("src", src);
+                    $("#userAvatar30").attr("src", src);
+                }
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#userTXSave').click(function () {
+            $('#userAvatarUpload').click();
+        });
 
+    });
+</script>
 </body>
 
 </html>

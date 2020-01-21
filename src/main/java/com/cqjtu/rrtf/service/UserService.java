@@ -60,5 +60,20 @@ public interface UserService {
      */
     List<User> loadAll();
 
+    /**
+     * 更新用户头像
+     * @param userNo 用户编号
+     * @param avatar 图片字节数组
+     */
+    void upDateUserAvatar(String userNo,byte[] avatar);
+
+    /**
+     * 根据用户编号，获得用户头像
+     *
+     * @param userNo
+     * @return byte[]
+     *
+     */
+    byte[] getUserAvatar(String userNo);
 }
 

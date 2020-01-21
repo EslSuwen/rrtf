@@ -13,7 +13,7 @@
 <div class="doc1180 fn-clear paddingT20" th:object="${session.USER_SESSION_KEY}">
     <div class="doc230 fn-left">
         <div class="flcb_cardUser">
-            <div class="flcb_cardUserPic"><img th:src="@{/img/student.png}" width="100" height="100"></div>
+            <div class="flcb_cardUserPic"><img th:src="@{/user/getAvatar}" width="100" height="100"></div>
             <div class="flcb_cardUserName"><p th:text="*{userName}">会员名字</p></div>
             <div class="flcb_cardUserText"><p th:text="*{userSign}">文字文字请限制字数</p></div>
         </div>

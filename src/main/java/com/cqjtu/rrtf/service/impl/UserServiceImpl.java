@@ -6,6 +6,7 @@ import com.cqjtu.rrtf.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -83,4 +84,38 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByUserName(userName);
     }
 
+    /**
+     * 注解式
+     * 自定义 mappper 方法调用
+     * <p>
+     * 更新用户头像
+     *
+     * @param userNo 用户编号
+     * @param avatar 图片字节数组
+     */
+    @Override
+    public void upDateUserAvatar(String userNo, byte[] avatar) {
+        userMapper.upDateUserAvatar(userNo, avatar);
+    }
+
+
+    /**
+     * 根据用户编号，获得用户头像
+     *
+     * @param userNo
+     * @return byte[]
+     */
+    @Override
+    public byte[] getUserAvatar(String userNo) {
+
+        byte[] avatar=null;
+        try{
+            avatar=userMapper.selectByPrimaryKey(userNo).getUserAvatar();
+        }
+        catch (Exception e) {
+            System.out.println("使用默认游客头像");
+        }
+        return avatar;
+
+    }
 }

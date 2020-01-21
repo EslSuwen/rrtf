@@ -1,16 +1,23 @@
 package com.cqjtu.rrtf.controller;
 
 import com.cqjtu.rrtf.entity.User;
+import com.cqjtu.rrtf.mapper.UserMapper;
 import com.cqjtu.rrtf.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.soap.SOAPBinding;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +53,59 @@ public class UserController {
         HttpSession session = request.getSession();
         session.setAttribute("USER_SESSION_KEY", user);
 
-        return "首页";
+        return "redirect:/";
+
+    }
+
+    @PostMapping(value = "/avatarUpload")
+    public String userAvatarUpload(@RequestParam("userAvatarUpload") MultipartFile file,
+                                   Map<String, Object> map, HttpServletRequest request) throws Exception {
+
+        User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+        System.out.println(user);
+        //读取文件数据，转成字节数组
+
+
+        if (file != null) {
+            System.out.println("file is not null");
+            user.setUserAvatar(file.getBytes());
+            userService.upDateUserAvatar(user.getUserNo(), file.getBytes());
+        }
+
+
+       /* //获取session并将userName存入session对象
+        HttpSession session = request.getSession();
+        session.setAttribute("USER_SESSION_KEY", user);*/
+        map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+
+        return "个人资料/用户中心-个人资料";
+
+    }
+
+    @GetMapping(value = "/getAvatar")
+    public String getAvatar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+        byte[] userAvatar = userService.getUserAvatar(user.getUserNo());
+
+        if (userAvatar == null) {
+            /*String path = request.getSession().getServletContext().getRealPath("/img/240x240.png");
+            System.out.println("path: " + path);
+            FileInputStream fis = new FileInputStream(new File(path));
+
+            userAvatar = new byte[fis.available()];
+            fis.read(userAvatar);*/
+            userAvatar = userService.getUserAvatar("-1");
+        }
+
+        //向浏览器发通知，我要发送是图片
+        response.setContentType("image/jpg");
+        ServletOutputStream sos = response.getOutputStream();
+        sos.write(userAvatar);
+        sos.flush();
+        sos.close();
+
+        return null;
 
     }
 
@@ -109,7 +168,7 @@ public class UserController {
     @RequestMapping(value = "/update")
     public String update(User user, HttpServletRequest request) {
 
-        User oldUser = (User)request.getSession().getAttribute("USER_SESSION_KEY");
+        User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
         oldUser.setUserName(user.getUserName());
         oldUser.setUserEmail(user.getUserEmail());
         oldUser.setUserBirth(user.getUserBirth());
@@ -119,7 +178,7 @@ public class UserController {
 
         userService.updateUser(oldUser);
 
-        request.getSession().setAttribute("USER_SESSION_KEY",oldUser);
+        request.getSession().setAttribute("USER_SESSION_KEY", oldUser);
 
         return "redirect:/user/profile";
     }

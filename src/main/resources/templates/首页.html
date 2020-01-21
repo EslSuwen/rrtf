@@ -2,6 +2,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <script language="JavaScript">
+
+        if (window !== top)
+
+            top.location.href = location.href;
+
+    </script>
     <meta charset="utf-8">
     <title>首页</title>
     <link th:href="@{/css/base.css}" rel="stylesheet" type="text/css">
@@ -18,15 +25,16 @@
         <div class="logo"><a th:href="@{/index}"><img th:src="@{/img/logo.png}"></a></div>
         <div class="headerUser">
             <ul>
-                <li class="headerUserPic"><a href="###"><img th:src="@{/img/user.png}"></a></li>
+                <li class="headerUserPic"><a th:href="@{/user/info}"><img th:src="@{/user/getAvatar}" target="ifr"></a>
+                </li>
                 <li class="headerUserName"><a th:href="@{/user/info}" th:text="${session.USER_SESSION_KEY.userName}"
                                               target="ifr"></a></li>
                 <li class="headerUserNotice">通知<a href="###">14</a></li>
             </ul>
         </div>
         <div class="headerLink">
-            <a th:href="@{/security/toLogin}" class="###">登录</a>
-            <a th:href="@{/user/toInput}" class="###">注册</a>
+            <a th:href="@{/security/toLogin}" target="ifr" class="###">登录</a>
+            <a th:href="@{/user/toInput}" target="ifr" class="###">注册</a>
         </div>
     </div>
 </div>
@@ -75,6 +83,8 @@
 
     }
 </script>
+
+
 <!-- 代码结束 -->
 </body>
 </html>
