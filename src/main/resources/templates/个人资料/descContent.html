@@ -14,18 +14,19 @@
 <body>
 <div class="">
     <div class="flcb_cardMenu" style="position: relative;">
+        <p id="area" text="myclass"></p>
         <ul>
-            <p id="area" th:text="${area}" style="display: none"></p>
             <li class="on">
-                <a name="myclass" href="###" id="myclass">我关注的文章</a>
+                <a href="###" id="myclass">我关注的文章</a>
             </li>
             <li>
-                <a name="newclass" href="###" id="newclass">最近发布文章</a>
+                <a href="###" id="newclass">最近发布文章</a>
             </li>
             <li>
-                <a name="desc" href="###" id="desc">我发布的文章</a>
+                <a href="###" id="desc">我发布的文章</a>
             </li>
         </ul>
+
         <div style="position: absolute;right: 10px;">
             <button type="button" class="btn btn-success " onclick="window.location.href='../托福人/托福人发布页.html'">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发布
@@ -193,18 +194,14 @@
                             </a>
 
                         </dl>-->
-            <form th:action="@{/article/myArticle}" method="post">
-                <input type="submit" value="查询" style="display: none;"/>
-            </form>
+            <form th:action="@{/article/myArticle}" method="post"></form>
             <dl th:each="article,iterStat : ${page.list}" stat>
                 <a href="../托福人/托福人详情页.html" target="_parent">
                     <dt><img src="../img/400x240.png"></dt>
                     <dd>
                         <div class="tfr_classifyh3">
                             <h3 th:text="${article.artTitle}">托福口语5个技巧带你入门</h3>
-                            <div><a href="###" class="imgA"><img class="img" th:text="${article.getUser().userName}"
-                                                                 th:src="@{/user/getAvatar/{userNo}(userNo=${article.userNo})}"/>
-                            </a></div>
+                            <div><a href="###" class="imgA"><img class="img" src="../img/125x125.jpg"/> alex</a></div>
                         </div>
                         <div class="tfr_classifyText">
                             <p th:text="${article.artText}"></p>
@@ -282,7 +279,7 @@
             </ul>
         </div>
 
-        <!--<div id="pageInfo">
+        <div id="pageInfo">
             共[[${page.total}]]条,
             <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 == page.total }">
 			当前显示第[[${page.total}]]条,
@@ -299,7 +296,7 @@
             |
             到<input type="text" id="pageNo" size=4 style="text-align:right;" onkeypress="onlynumber();"/> 页
             <button class="linkspan" id="five" style="color:black;text-decoration:none;"> 跳 转</button>
-        </div>-->
+        </div>
 
 
     </div>
@@ -391,14 +388,6 @@
 </div>
 
 <script>
-    $(function () {
-        var area = document.getElementById("area").textContent
-        $('a[name=\'' + area + '\']').click();
-    });
-
-    $('a[name=\'newclass\']').click();
-</script>
-<script>
     // articleType 转换
     var articleType = document.getElementsByName("articleType");
     for (var i = 0; i < articleType.length; i++) {
@@ -461,7 +450,7 @@
             }
 
             var act = "?pageNo=" + pageNo;
-            $("form:eq(0)").attr("action", act).submit();
+            $("form:eq(1)").attr("action", act).submit();
             return false;
 
         });

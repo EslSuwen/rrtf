@@ -1,7 +1,6 @@
 package com.cqjtu.rrtf.controller;
 
 import com.cqjtu.rrtf.entity.User;
-import com.cqjtu.rrtf.mapper.UserMapper;
 import com.cqjtu.rrtf.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -10,188 +9,255 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.jws.soap.SOAPBinding;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author suwen
- */
+/** @author suwen */
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+  @Autowired private UserService userService;
 
-    /**
-     * 访问用户输入界面
+  /** 访问用户输入界面 */
+  @GetMapping("/toInput")
+  public String input(Map<String, Object> map) {
+    map.put("user", new User());
+
+    return "登陆注册/注册页";
+  }
+
+  /** 创建新用户 */
+  @PostMapping(value = "/create")
+  public String create(User user, HttpServletRequest request) {
+
+    // 默认用户的权限为普通用户
+    user.setUserTab("2");
+    System.out.println(user);
+    userService.addUser(user);
+    System.out.println(userService.getOneUser(user));
+    // 获取session并将userName存入session对象
+    HttpSession session = request.getSession();
+    session.setAttribute("USER_SESSION_KEY", userService.getOneUser(user));
+
+    return "redirect:/";
+  }
+
+  /**
+   * @description: 用户上传头像
+   * @param file
+   * @param map
+   * @param request
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/22 2:24 下午
+   */
+  @PostMapping(value = "/avatarUpload")
+  public String userAvatarUpload(
+      @RequestParam("userAvatarUpload") MultipartFile file,
+      Map<String, Object> map,
+      HttpServletRequest request)
+      throws Exception {
+
+    User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+    System.out.println(user);
+    // 读取文件数据，转成字节数组
+
+    if (file != null) {
+      System.out.println("file is not null");
+      user.setUserAvatar(file.getBytes());
+      userService.upDateUserAvatar(user.getUserNo(), file.getBytes());
+    }
+
+    map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+
+    return "个人资料/用户中心-个人资料";
+  }
+
+  /**
+   * @description: 获得用户头像
+   * @param request
+   * @param response
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/22 2:25 下午
+   */
+  @GetMapping(value = "/getAvatar")
+  public String getAvatar(HttpServletRequest request, HttpServletResponse response)
+      throws Exception {
+
+    User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+    byte[] userAvatar = userService.getUserAvatar(user.getUserNo());
+
+    if (userAvatar == null) {
+      userAvatar = userService.getUserAvatar("-1");
+    }
+
+    // 向浏览器发通知，我要发送是图片
+    response.setContentType("image/jpg");
+    ServletOutputStream sos = response.getOutputStream();
+    sos.write(userAvatar);
+    sos.flush();
+    sos.close();
+
+    return null;
+  }
+
+  /**
+   * 文章获得作者头像
+   *
+   * @param userNo
+   * @param request
+   * @param response
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/22 10:29 下午
+   */
+  @GetMapping(value = "/getAvatar/{userNo}")
+  public String getAvatar(
+      @PathVariable(value = "userNo", required = false) String userNo,
+      HttpServletRequest request,
+      HttpServletResponse response)
+      throws Exception {
+
+    System.out.println("userNo get avatar: " + userNo);
+
+    byte[] userAvatar = userService.getUserAvatar(userNo);
+
+    if (userAvatar == null) {
+      userAvatar = userService.getUserAvatar("-1");
+    }
+
+    // 向浏览器发通知，我要发送是图片
+    response.setContentType("image/jpg");
+    ServletOutputStream sos = response.getOutputStream();
+    sos.write(userAvatar);
+    sos.flush();
+    sos.close();
+
+    return null;
+  }
+  /**
+   * @description: 用户个人主页
+   * @param map
+   * @param request
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/22 2:25 下午
+   */
+  @GetMapping("/info")
+  public String userInfo(Map<String, Object> map, HttpServletRequest request) {
+
+    map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+
+    return "个人资料/普通用户-首页";
+  }
+
+  /**
+   * @description: 用户个人主页-个人资料
+   * @param map
+   * @param request
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/22 2:25 下午
+   */
+  @GetMapping("/profile")
+  public String userprofile(Map<String, Object> map, HttpServletRequest request) {
+
+    map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+
+    return "个人资料/用户中心-个人资料";
+  }
+
+  @GetMapping("/list")
+  public String list(
+      Map<String, Object> map,
+      @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr) {
+
+    int pageNo = 1;
+
+    // 对 pageNo 的校验
+    pageNo = Integer.parseInt(pageNoStr);
+    if (pageNo < 1) {
+      pageNo = 1;
+    }
+
+    /*
+     * 第一个参数：第几页;
+     * 第二个参数：每页获取的条数.
      */
-    @GetMapping("/toInput")
-    public String input(Map<String, Object> map) {
-        map.put("user", new User());
+    PageHelper.startPage(pageNo, 4);
+    List<User> userList = userService.loadAll();
 
-        return "登陆注册/注册页";
-    }
+    PageInfo<User> page = new PageInfo<>(userList);
 
-    /**
-     * 创建新用户
-     */
-    @PostMapping(value = "/create")
-    public String create(User user, HttpServletRequest request) {
+    map.put("page", page);
 
-        //默认用户的权限为普通用户
-        user.setUserTab("2");
-        System.out.println(user);
-        userService.addUser(user);
-        System.out.println(userService.getOneUser(user));
-        //获取session并将userName存入session对象
-        HttpSession session = request.getSession();
-        session.setAttribute("USER_SESSION_KEY", userService.getOneUser(user));
+    return "user/list_user";
+  }
 
-        return "redirect:/";
+  @GetMapping(value = "/remove/{userNo}")
+  public String remove(@PathVariable("userNo") Integer userNo) {
 
-    }
+    userService.removeUser(userNo);
+    return "redirect:/user/list";
+  }
 
-    @PostMapping(value = "/avatarUpload")
-    public String userAvatarUpload(@RequestParam("userAvatarUpload") MultipartFile file,
-                                   Map<String, Object> map, HttpServletRequest request) throws Exception {
+  @GetMapping(value = "/preUpdate/{userNo}")
+  public String preUpdate(@PathVariable("userNo") String userNo, Map<String, Object> map) {
+    System.out.println(userService.get(userNo));
+    map.put("user", userService.get(userNo));
 
-        User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
-        System.out.println(user);
-        //读取文件数据，转成字节数组
+    return "user/update_user";
+  }
 
-        if (file != null) {
-            System.out.println("file is not null");
-            user.setUserAvatar(file.getBytes());
-            userService.upDateUserAvatar(user.getUserNo(), file.getBytes());
-        }
+  /**
+   * @description: 用户修改个人资料
+   * @param user
+   * @param request
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/22 2:27 下午
+   */
+  @RequestMapping(value = "/update")
+  public String update(User user, HttpServletRequest request) {
 
-        map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
+    User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+    oldUser.setUserName(user.getUserName());
+    oldUser.setUserEmail(user.getUserEmail());
+    oldUser.setUserBirth(user.getUserBirth());
+    oldUser.setUserSign(user.getUserSign());
+    oldUser.setUserTel(user.getUserTel());
+    oldUser.setUserSex(user.getUserSex());
 
-        return "个人资料/用户中心-个人资料";
+    userService.updateUser(oldUser);
 
-    }
+    request.getSession().setAttribute("USER_SESSION_KEY", oldUser);
 
-    @GetMapping(value = "/getAvatar")
-    public String getAvatar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    return "redirect:/user/profile";
+  }
 
-        User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
-        byte[] userAvatar = userService.getUserAvatar(user.getUserNo());
+  /**
+   * @description: 用户更新密码
+   * @param user
+   * @param request
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/21 7:57 下午
+   */
+  @RequestMapping(value = "/updatePwd")
+  public String updatePwd(String newPwd, String oldPwd, HttpServletRequest request) {
 
-        if (userAvatar == null) {
-            userAvatar = userService.getUserAvatar("-1");
-        }
+    User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
 
-        //向浏览器发通知，我要发送是图片
-        response.setContentType("image/jpg");
-        ServletOutputStream sos = response.getOutputStream();
-        sos.write(userAvatar);
-        sos.flush();
-        sos.close();
+    userService.upDateUserPwd(oldUser.getUserNo(), newPwd);
 
-        return null;
+    request.getSession().setAttribute("USER_SESSION_KEY", userService.get(oldUser.getUserNo()));
 
-    }
-
-    @GetMapping("/info")
-    public String userInfo(Map<String, Object> map, HttpServletRequest request) {
-
-        map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
-
-        return "个人资料/普通用户-首页";
-    }
-
-    @GetMapping("/profile")
-    public String userprofile(Map<String, Object> map, HttpServletRequest request) {
-
-        map.put("user", request.getSession().getAttribute("USER_SESSION_KEY"));
-
-        return "个人资料/用户中心-个人资料";
-    }
-
-    @GetMapping("/list")
-    public String list(Map<String, Object> map, @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr) {
-
-        int pageNo = 1;
-
-        //对 pageNo 的校验
-        pageNo = Integer.parseInt(pageNoStr);
-        if (pageNo < 1) {
-            pageNo = 1;
-        }
-
-        /*
-         * 第一个参数：第几页;
-         * 第二个参数：每页获取的条数.
-         */
-        PageHelper.startPage(pageNo, 4);
-        List<User> userList = userService.loadAll();
-
-        PageInfo<User> page = new PageInfo<>(userList);
-
-        map.put("page", page);
-
-        return "user/list_user";
-    }
-
-    @GetMapping(value = "/remove/{userNo}")
-    public String remove(@PathVariable("userNo") Integer userNo) {
-
-        userService.removeUser(userNo);
-        return "redirect:/user/list";
-    }
-
-    @GetMapping(value = "/preUpdate/{userNo}")
-    public String preUpdate(@PathVariable("userNo") String userNo, Map<String, Object> map) {
-        System.out.println(userService.get(userNo));
-        map.put("user", userService.get(userNo));
-
-        return "user/update_user";
-    }
-
-    @RequestMapping(value = "/update")
-    public String update(User user, HttpServletRequest request) {
-
-        User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
-        oldUser.setUserName(user.getUserName());
-        oldUser.setUserEmail(user.getUserEmail());
-        oldUser.setUserBirth(user.getUserBirth());
-        oldUser.setUserSign(user.getUserSign());
-        oldUser.setUserTel(user.getUserTel());
-        oldUser.setUserSex(user.getUserSex());
-
-        userService.updateUser(oldUser);
-
-        request.getSession().setAttribute("USER_SESSION_KEY", oldUser);
-
-        return "redirect:/user/profile";
-    }
-
-    /**
-     * @param user
-     * @param request
-     * @description: 用户更新密码
-     * @return: java.lang.String
-     * @author: suwen
-     * @time: 2020/1/21 7:57 下午
-     */
-    @RequestMapping(value = "/updatePwd")
-    public String updatePwd(String newPwd, String oldPwd, HttpServletRequest request) {
-
-        User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
-
-        userService.upDateUserPwd(oldUser.getUserNo(), newPwd);
-
-        request.getSession().setAttribute("USER_SESSION_KEY", userService.get(oldUser.getUserNo()));
-
-        return "redirect:/";
-    }
+    return "redirect:/";
+  }
 }

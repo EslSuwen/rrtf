@@ -25,12 +25,11 @@
         </div>
         <div class="flcb_cardUserMenu">
             <ul>
-                <li class="on"><a href="用户中心-个人资料.html" target="infor" class="icon_1">个人资料</a></li>
-                <li><a href="用户中心-我的公开课.html" target="infor" class="icon_2">我的公开课</a></li>
-                <li><a href="用户中心-我的群组.html" target="infor" class="icon_3">我的群组</a></li>
-                <li><a href="用户中心-我的福利城堡.html" target="infor" class="icon_5">我的福利城堡</a></li>
-                <li><a href="用户中心-我的托福人.html" target="infor" class="icon_6">我的托福人</a></li>
-
+                <li class="on"><a th:href="@{/user/profile}" target="infor" class="icon_1">个人资料</a></li>
+                <li><a th:href="@{/个人资料/用户中心-我的公开课.html}" target="infor" class="icon_2">我的公开课</a></li>
+                <li><a th:href="@{/个人资料/用户中心-我的群组.html}" target="infor" class="icon_3">我的群组</a></li>
+                <li><a th:href="@{/个人资料/用户中心-我的福利城堡.html}" target="infor" class="icon_5">我的福利城堡</a></li>
+                <li><a th:href="@{/article/myArticle}" target="infor" class="icon_6">我的托福人</a></li>
             </ul>
         </div>
     </div>
