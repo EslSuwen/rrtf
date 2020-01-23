@@ -27,7 +27,7 @@
             </li>
         </ul>
         <div style="position: absolute;right: 10px;">
-            <button type="button" class="btn btn-success " onclick="window.location.href='../托福人/托福人发布页.html'">
+            <button type="button" id="newArticle" class="btn btn-success " th:href="@{/article/toInput}">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发布
             </button>
         </div>
@@ -197,17 +197,18 @@
                 <input type="submit" value="查询" style="display: none;"/>
             </form>
             <dl th:each="article,iterStat : ${page.list}" stat>
-                <a href="../托福人/托福人详情页.html" target="_parent">
-                    <dt><img src="../img/400x240.png"></dt>
+                <a th:href="@{/article/getArtInfo/{artNo}(artNo=${article.artNo})}" target="_parent">
+                    <dt><img width="400" height="200" th:src="@{/article/getArtImg/{artNo}(artNo=${article.artNo})}">
+                    </dt>
                     <dd>
-                        <div class="tfr_classifyh3">
+                        <div class=" tfr_classifyh3">
                             <h3 th:text="${article.artTitle}">托福口语5个技巧带你入门</h3>
                             <div><a href="###" class="imgA"><img class="img" th:text="${article.getUser().userName}"
                                                                  th:src="@{/user/getAvatar/{userNo}(userNo=${article.userNo})}"/>
                             </a></div>
                         </div>
                         <div class="tfr_classifyText">
-                            <p th:text="${article.artText}"></p>
+                            <p th:size="200" th:text="${article.artText}"></p>
                         </div>
                         <div class="tfr_classifyTime">
                             <span>所属分类:</span><a name="articleType" th:text="${article.artType}" href="###">听力</a>
@@ -285,11 +286,11 @@
         <!--<div id="pageInfo">
             共[[${page.total}]]条,
             <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 == page.total }">
-			当前显示第[[${page.total}]]条,
-	</span>
+            当前显示第[[${page.total}]]条,
+    </span>
             <span th:if="${ ( page.pageNum - 1 ) * page.pageSize + 1 != page.total }">
-			当前显示[[${page.startRow}]]-[[${page.endRow}]]条,
-	</span>
+            当前显示[[${page.startRow}]]-[[${page.endRow}]]条,
+    </span>
             第[[${page.pageNum}]]/[[${page.pages}]]页
             |
             <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="one">首页</span>&nbsp;</a>
@@ -389,17 +390,18 @@
     </div>
 
 </div>
-
+<!--区域展示-->
 <script>
     $(function () {
         var area = document.getElementById("area").textContent
         $('a[name=\'' + area + '\']').click();
     });
 
-    $('a[name=\'newclass\']').click();
+    //$('a[name=\'newclass\']').click();
+
 </script>
+<!--articleType 转换-->
 <script>
-    // articleType 转换
     var articleType = document.getElementsByName("articleType");
     for (var i = 0; i < articleType.length; i++) {
         if (articleType[i].text === "0") {
@@ -421,7 +423,7 @@
 
         });
 
-        $(".update").click(function () {
+        $("#newArticle").click(function () {
             var href = $(this).attr("href");
             $(location).attr("href", href);
         });

@@ -65,8 +65,8 @@ public class UserController {
 
     User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
     System.out.println(user);
-    // 读取文件数据，转成字节数组
 
+    // 读取文件数据，转成字节数组
     if (file != null) {
       System.out.println("file is not null");
       user.setUserAvatar(file.getBytes());
@@ -141,6 +141,7 @@ public class UserController {
 
     return null;
   }
+
   /**
    * @description: 用户个人主页
    * @param map

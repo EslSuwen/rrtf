@@ -22,7 +22,10 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public Article getArticle(String artNo) {
 
-    return articleMapper.selectByPrimaryKey(artNo);
+    Article article = articleMapper.selectByPrimaryKey(artNo);
+    article.setUser(userMapper.selectByPrimaryKey(article.getUserNo()));
+
+    return article;
   }
 
   @Override
@@ -34,7 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public List<Article> loadAll() {
 
-    List<Article> articleList= articleMapper.selectAll();
+    List<Article> articleList = articleMapper.selectAll();
     for (Article each : articleList) {
       each.setUser(userMapper.selectByPrimaryKey(each.getUserNo()));
     }
