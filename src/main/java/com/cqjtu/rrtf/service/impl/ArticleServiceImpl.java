@@ -44,4 +44,20 @@ public class ArticleServiceImpl implements ArticleService {
 
     return articleList;
   }
+
+  @Override
+  public List<Article> loadAllByUserNo(String userNo) {
+    Article article = new Article();
+    article.setUserNo(userNo);
+    List<Article> articleList = articleMapper.select(article);
+    for (Article each : articleList) {
+      each.setUser(userMapper.selectByPrimaryKey(userNo));
+    }
+    return articleList;
+  }
+
+  @Override
+  public void updateArticle(Article article) {
+    articleMapper.updateByPrimaryKey(article);
+  }
 }

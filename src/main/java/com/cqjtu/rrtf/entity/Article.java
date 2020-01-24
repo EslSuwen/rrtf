@@ -44,22 +44,6 @@ public class Article {
   @Column(name = "art_text")
   private String artText;
 
-  @Override
-  public String toString() {
-    return "artNo: "
-        + artNo
-        + "userNo: "
-        + userNo
-        + "artTitle: "
-        + artTitle
-        + "\nartDate: "
-        + artDate
-        + "artImg: "
-        + artImg.length
-        + "artText: "
-        + artTitle.length();
-  }
-
   public Article() {}
 
   public Article(

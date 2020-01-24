@@ -28,13 +28,33 @@ public interface ArticleService {
   void addArticle(Article article);
 
   /**
-   * 获取所有用户记录
+   * 更新文章
+   *
+   * @param article 文章
+   * @return: void
+   * @author: suwen
+   * @time: 2020/1/24 6:13 下午
+   */
+  void updateArticle(Article article);
+
+  /**
+   * 获取所有文章记录
    *
    * @return: java.util.List<com.cqjtu.rrtf.entity.Article>
    * @author: suwen
    * @time: 2020/1/22 4:42 下午
    */
   List<Article> loadAll();
+
+  /**
+   * 根据作者获取其所有文章记录
+   *
+   * @param userNo 作者编号
+   * @return: java.util.List<com.cqjtu.rrtf.entity.Article>
+   * @author: suwen
+   * @time: 2020/1/22 4:42 下午
+   */
+  List<Article> loadAllByUserNo(String userNo);
 
   /**
    * 删除一条用户数据记录

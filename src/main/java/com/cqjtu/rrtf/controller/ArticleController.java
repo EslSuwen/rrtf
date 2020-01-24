@@ -77,21 +77,30 @@ public class ArticleController {
     return "redirect:/";
   }
 
-  //  @GetMapping("/myArticle")
-  public String myArticle(Map<String, Object> map) {
-
-    Article article = articleService.getArticle("-1");
-    System.out.println("article: " + article.getArtNo() + article.getArtText());
-
-    List<Article> articleList = articleService.loadAll();
-    map.put("article", article);
-    map.put("articleList", articleList);
+  /**
+   * 访问托福人文章
+   *
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/24 2:19 下午
+   */
+  @GetMapping("/Article")
+  public String myArticle() {
 
     return "个人资料/用户中心-我的托福人";
   }
 
-  @RequestMapping("/myArticle")
-  public String list(
+  /**
+   * 访问最新发布文章
+   *
+   * @param pageNoStr 页码
+   * @param map 参数集
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/24 2:12 下午
+   */
+  @RequestMapping("newArticle")
+  public String newArticle(
       @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr,
       Map<String, Object> map) {
 
@@ -103,6 +112,7 @@ public class ArticleController {
 
     PageHelper.startPage(pageNo, 3);
     List<Article> articleList = articleService.loadAll();
+    System.out.println(articleList.size());
 
     // 文章字数限制
     for (Article each : articleList) {
@@ -113,11 +123,66 @@ public class ArticleController {
     PageInfo<Article> page = new PageInfo<>(articleList);
 
     map.put("page", page);
-    map.put("area", "newclass");
 
-    return "个人资料/用户中心-我的托福人";
+    return "托福人/newArticle";
   }
 
+  /**
+   * 访问用户发布文章
+   *
+   * @param pageNoStr 页码
+   * @param map 参数集
+   * @param request http 请求
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/24 3:56 下午
+   */
+  @RequestMapping("myArticle")
+  public String myArticle(
+      @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr,
+      Map<String, Object> map,
+      HttpServletRequest request) {
+
+    User user = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+    String userNo = user.getUserNo();
+
+    // 对 pageNo 的校验
+    int pageNo = Integer.parseInt(pageNoStr);
+    if (pageNo < 1) {
+      pageNo = 1;
+    }
+
+    PageHelper.startPage(pageNo, 3);
+    List<Article> articleList;
+    if (user.getUserTab().equals("0")) {
+      articleList = articleService.loadAll();
+    } else {
+      articleList = articleService.loadAllByUserNo(userNo);
+    }
+
+    // 文章字数限制
+    for (Article each : articleList) {
+
+      if (!each.getUserNo().equals(userNo)) {
+        continue;
+      }
+      if (each.getArtText().length() >= 200) {
+        each.setArtText(each.getArtText().substring(0, 200) + "......");
+      }
+    }
+    PageInfo<Article> page = new PageInfo<>(articleList);
+
+    map.put("page", page);
+
+    return "托福人/myArticle";
+  }
+
+  /**
+   * @param map
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/24 2:12 下午
+   */
   @GetMapping("/followArticle")
   public String followArticle(Map<String, Object> map) {
     map.put("user", new User());
@@ -175,5 +240,56 @@ public class ArticleController {
     map.put("article", articleService.getArticle(artNo));
 
     return "托福人/托福人详情页";
+  }
+
+  /**
+   * 用户删除文章
+   *
+   * @param artNo 文章编号
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/24 4:44 下午
+   */
+  @GetMapping(value = "/remove/{artNo}")
+  public String remove(@PathVariable("userNo") Integer userNo) {
+
+    return "redirect:/";
+  }
+
+  /**
+   * 用户访问文章修改页面
+   *
+   * @param artNo 文章编号
+   * @param map
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/24 4:46 下午
+   */
+  @GetMapping(value = "/preUpdate/{artNo}")
+  public String preUpdate(@PathVariable("artNo") String artNo, Map<String, Object> map) {
+
+    map.put("article", articleService.getArticle(artNo));
+
+    return "托福人/editArticle";
+  }
+
+  @RequestMapping(value = "/update")
+  public String update(@RequestParam("artImgUpload") MultipartFile file, Article article)
+      throws Exception {
+
+    Article oldArticle = articleService.getArticle(article.getArtNo());
+    oldArticle.setArtTitle(article.getArtTitle());
+    oldArticle.setArtText(article.getArtText());
+    oldArticle.setArtType(article.getArtType());
+
+    // 读取文件数据，转成字节数组
+    if (!file.isEmpty()) {
+      System.out.println("file is not null");
+      oldArticle.setArtImg(file.getBytes());
+    }
+
+    articleService.updateArticle(oldArticle);
+
+    return "redirect:/";
   }
 }

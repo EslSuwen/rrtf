@@ -227,7 +227,8 @@ public class UserController {
   @RequestMapping(value = "/update")
   public String update(User user, HttpServletRequest request) {
 
-    User oldUser = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+    User userSessionKey = (User) request.getSession().getAttribute("USER_SESSION_KEY");
+    User oldUser = userService.get(userSessionKey.getUserNo());
     oldUser.setUserName(user.getUserName());
     oldUser.setUserEmail(user.getUserEmail());
     oldUser.setUserBirth(user.getUserBirth());
