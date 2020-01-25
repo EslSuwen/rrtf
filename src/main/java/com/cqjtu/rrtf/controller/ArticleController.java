@@ -128,6 +128,45 @@ public class ArticleController {
   }
 
   /**
+   * 根据文章类型查看文章
+   *
+   * @param artType 文章类型
+   * @param pageNoStr 页码
+   * @param map 参数集
+   * @return: java.lang.String
+   * @author: suwen
+   * @time: 2020/1/25 6:38 下午
+   */
+  @RequestMapping("classArticle/{artType}")
+  public String classArticle(
+      @PathVariable(value = "artType", required = false) String artType,
+      @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr,
+      Map<String, Object> map) {
+
+    // 对 pageNo 的校验
+    int pageNo = Integer.parseInt(pageNoStr);
+    if (pageNo < 1) {
+      pageNo = 1;
+    }
+
+    PageHelper.startPage(pageNo, 5);
+    List<Article> articleList = articleService.loadAllByType(artType);
+    System.out.println(articleList.size());
+
+    // 文章字数限制
+    for (Article each : articleList) {
+      if (each.getArtText().length() >= 200) {
+        each.setArtText(each.getArtText().substring(0, 200) + "......");
+      }
+    }
+    PageInfo<Article> page = new PageInfo<>(articleList);
+
+    map.put("page", page);
+
+    return "托福人/classArticle";
+  }
+
+  /**
    * 访问用户发布文章
    *
    * @param pageNoStr 页码
@@ -175,6 +214,31 @@ public class ArticleController {
     map.put("page", page);
 
     return "托福人/myArticle";
+  }
+
+  @RequestMapping("home")
+  public String home(
+      @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr,
+      Map<String, Object> map,
+      HttpServletRequest request) {
+
+    List<Article> articleListListening = articleService.loadAllByType("1");
+    List<Article> articleListSpeaking = articleService.loadAllByType("2");
+    List<Article> articleListReading = articleService.loadAllByType("3");
+    List<Article> articleListWriting = articleService.loadAllByType("4");
+
+    for (Article each : articleListListening) {
+
+      if (each.getArtTitle().length() >= 25) {
+        each.setArtTitle(each.getArtTitle().substring(0, 25) + "...");
+      }
+    }
+    map.put("articleListListening", articleListListening);
+    map.put("articleListSpeaking", articleListSpeaking);
+    map.put("articleListReading", articleListReading);
+    map.put("articleListWriting", articleListWriting);
+
+    return "托福人/托福人";
   }
 
   /**
@@ -251,9 +315,11 @@ public class ArticleController {
    * @time: 2020/1/24 4:44 下午
    */
   @GetMapping(value = "/remove/{artNo}")
-  public String remove(@PathVariable("userNo") Integer userNo) {
+  public String remove(@PathVariable("artNo") String artNo) {
 
-    return "redirect:/";
+    articleService.removeArticle(artNo);
+
+    return "redirect:/article/myArticle";
   }
 
   /**

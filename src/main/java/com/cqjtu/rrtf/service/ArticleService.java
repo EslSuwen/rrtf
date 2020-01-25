@@ -57,6 +57,26 @@ public interface ArticleService {
   List<Article> loadAllByUserNo(String userNo);
 
   /**
+   * 根据文章类型获得文章
+   *
+   * @param artType
+   * @return: java.util.List<com.cqjtu.rrtf.entity.Article>
+   * @author: suwen
+   * @time: 2020/1/25 6:41 下午
+   */
+  List<Article> loadAllByType(String artType);
+
+  /**
+   * 删除一条文章记录
+   *
+   * @param artNo 文章编号
+   * @return:
+   * @author: suwen
+   * @time: 2020/1/25 6:10 下午
+   */
+  void removeArticle(String artNo);
+
+  /**
    * 删除一条用户数据记录
    *
    * @param userId

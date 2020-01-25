@@ -33,9 +33,12 @@
                         <p th:size="200" th:text="${article.artText}"></p>
                     </div>
                     <div class="tfr_classifyTime">
-                        <span>所属分类:</span><a name="articleType" th:text="${article.artType}" href="###">听力</a>
+                        <span>所属分类:</span><a name="articleType" th:text="${article.artType}"
+                                             th:href="@{/article/classArticle/{artType}(artType=${article.artType})}"
+                                             target="ifr">听力</a>
                         <span>发布日期：</span><span th:text="${article.artDate}">2019-12-12</span>
-                        <a href="###" style="margin-left: 40px;"> 删除</a>
+                        <a th:href="@{/article/remove/{artNo}(artNo=${article.artNo})}" style="margin-left: 40px;">
+                            删除</a>
                         <a th:href="@{/article/preUpdate/{artNo}(artNo=${article.artNo})}" target="_parent"> 编辑</a>
                         <div class=" commDiv">
                             <span class="glyphicon glyphicon-heart" style="color: #D92A11;"></span> <span>100</span>

@@ -15,14 +15,15 @@
 <div class="">
 
     <div class="publiclass">
-        <form th:action="@{/article/newArticle}" method="post">
+        <form th:action="@{/article/classArticle}" method="post">
             <input type="submit" value="查询" style="display: none;"/>
         </form>
         <dl th:each="article,iterStat : ${page.list}" stat>
             <a th:href="@{/article/getArtInfo/{artNo}(artNo=${article.artNo})}" target="ifr">
-                <dt><img width="400" height="200" th:src="@{/article/getArtImg/{artNo}(artNo=${article.artNo})}">
+                <dt style="margin-left: 200px"><img width="400" height="200"
+                                                    th:src="@{/article/getArtImg/{artNo}(artNo=${article.artNo})}">
                 </dt>
-                <dd>
+                <dd style="margin-right: 100px">
                     <div class=" tfr_classifyh3">
                         <h3 th:text="${article.artTitle}">托福口语5个技巧带你入门</h3>
                         <div><a href="###" class="imgA"><img class="img" th:text="${article.getUser().userName}"
@@ -34,8 +35,7 @@
                     </div>
                     <div class="tfr_classifyTime">
                         <span>所属分类:</span><a name="articleType" th:text="${article.artType}"
-                                             th:href="@{/article/classArticle/{artType}(artType=${article.artType})}"
-                                             target="ifr">听力</a>
+                                             th:href="@{/article/myArticle}" target="ifr">听力</a>
                         <span>发布日期：</span><span th:text="${article.artDate}">2019-12-12</span>
                         <div class=" commDiv">
                             <span class="glyphicon glyphicon-heart" style="color: #D92A11;"></span> <span>100</span>

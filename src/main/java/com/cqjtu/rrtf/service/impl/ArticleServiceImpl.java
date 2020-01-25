@@ -60,4 +60,20 @@ public class ArticleServiceImpl implements ArticleService {
   public void updateArticle(Article article) {
     articleMapper.updateByPrimaryKey(article);
   }
+
+  @Override
+  public void removeArticle(String artNo) {
+    articleMapper.deleteByPrimaryKey(artNo);
+  }
+
+  @Override
+  public List<Article> loadAllByType(String artType) {
+    Article article = new Article();
+    article.setArtType(artType);
+    List<Article> articleList = articleMapper.select(article);
+    for (Article each : articleList) {
+      each.setUser(userMapper.selectByPrimaryKey(each.getUserNo()));
+    }
+    return articleList;
+  }
 }
