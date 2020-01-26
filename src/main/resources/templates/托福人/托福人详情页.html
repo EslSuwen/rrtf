@@ -23,48 +23,10 @@
             <div class=" tfr_DetailsMain">
                 <p th:text="*{artText}"></p>
             </div>
-            <div class="tfr_DetailsPl">
-                <div class="tfr_DetailsPlTop">
-                    文章评论<span>18</span>
-                    <span class="glyphicon glyphicon-heart" title="点击后关注"
-                          style="float: right;right: 50px;font-size: 30px;color: red;"></span>
-                </div>
-                <div class="tfr_DetailsSr">
-                    <textarea name="" cols="" rows="" class="tfr_DetailsInput"></textarea>
-                </div>
-                <div class="tfr_DetailsTj">
-                    <dl>
-                        <dt><a class="tfr_DetailsTjLink">登录</a>后参与评论</dt>
-                        <dd><a href="###" class="tfr_DetailsTjpl">提交评论</a></dd>
-                    </dl>
-                </div>
-                <div class="tfr_DetailsMessage">
-                    <ul>
-                        <li>
-                            <div class="tfr_DetailsMPic">
-                                <img src="../img/125x125.jpg">
-                                <div class="tfr_DetailsMPicB"></div>
-                            </div>
-                            <div class="tfr_DetailsMText">
-                                <div class="tfr_DetailsMTitle">品论内容评论内容</div>
-                                <div class="tfr_DetailsName"><span>会员2345</span>一个月前（12-03）</div>
-                            </div>
-                            <div class="tfr_DetailsLc">#16</div>
-                        </li>
-                        <li>
-                            <div class="tfr_DetailsMPic">
-                                <img src="../img/125x125.jpg">
-                                <div class="tfr_DetailsMPicB"></div>
-                            </div>
-                            <div class="tfr_DetailsMText">
-                                <div class="tfr_DetailsMTitle">品论内容评论内容</div>
-                                <div class="tfr_DetailsName"><span>会员2345</span>一个月前（12-03）</div>
-                            </div>
-                            <div class="tfr_DetailsLc">#16</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+
+            <iframe id="cmt" name='cmt' th:src="@{/cmt//getCmts/{artNo}(artNo=*{artNo})}" scrolling="no"
+                    style="width: 860px;height: 800px;"
+                    frameborder="no"></iframe>
         </div>
     </div>
     <!--页面左侧内容 end-->
@@ -78,26 +40,29 @@
             </div>
             <div class="index_homework">
                 <dl>
-                    <dt><i class="index_homeworkIcon"><img src="../img/index_homeworkIcon_1.png" width="20" height="20"></i><a
+                    <dt><i class="index_homeworkIcon"><img th:src="@{/img/index_homeworkIcon_1.png}" } width="20"
+                                                           height="20"></i><a
                             href="#" class="index_homeworkTitle">听力</a></dt>
-                    <dd><a href="#">控制字数控制显示的字数控制字数控制显示的字数控制字数控制显示的字数</a></dd>
+                    <dd><a href="#">托福口语备考建议</a></dd>
                 </dl>
                 <dl>
-                    <dt><i class="index_homeworkIcon"><img src="../img/index_homeworkIcon_2.png" width="20" height="20"></i><a
+                    <dt><i class="index_homeworkIcon"><img th:src="@{/img/index_homeworkIcon_1.png}" } width="20"
+                                                           height="20"></i><a
                             href="#" class="index_homeworkTitle">听力</a></dt>
-                    <dd><a href="#">控制字数控制显示的字数控制字数控制显示的字数控制字数控制显示的字数</a></dd>
+                    <dd><a href="#">托福口语备考建议</a></dd>
                 </dl>
                 <dl>
-                    <dt><i class="index_homeworkIcon"><img src="../img/index_homeworkIcon_3.png" width="20" height="20"></i><a
+                    <dt><i class="index_homeworkIcon"><img th:src="@{/img/index_homeworkIcon_1.png}" } width="20"
+                                                           height="20"></i><a
                             href="#" class="index_homeworkTitle">听力</a></dt>
-                    <dd><a href="#">控制字数控制显示的字数控制字数控制显示的字数控制字数控制显示的字数</a></dd>
+                    <dd><a href="#">托福口语备考建议</a></dd>
                 </dl>
                 <dl>
-                    <dt><i class="index_homeworkIcon"><img src="../img/index_homeworkIcon_4.png" width="20" height="20"></i><a
+                    <dt><i class="index_homeworkIcon"><img th:src="@{/img/index_homeworkIcon_1.png}" } width="20"
+                                                           height="20"></i><a
                             href="#" class="index_homeworkTitle">听力</a></dt>
-                    <dd><a href="#">控制字数控制显示的字数控制字数控制显示的字数控制字数控制显示的字数</a></dd>
+                    <dd><a href="#">托福口语备考建议</a></dd>
                 </dl>
-
             </div>
         </div>
         <!--热门小组-->
@@ -108,36 +73,36 @@
             </div>
             <div class="index_itemRHot">
                 <dl>
-                    <dt><a href="###"><img src="../img/48x48.png" width="48" height="48"></a></dt>
+                    <dt><a href="###"><img th:src="@{/img/48x48.png}" width="48" height="48"></a></dt>
                     <dd>
                         <div class="fn-clear">
-                            <span class="index_itemRHotName">标题请控制字数</span>
-                            <span class="index_itemRHotPic"><img src="../img/index_itemRHot.png"></span>
+                            <span class="index_itemRHotName">ETS 宣布</span>
+                            <span class="index_itemRHotPic"><img th:src="@{/img/index_itemRHot.png}"></span>
                             <span class="index_itemRHotNum">234567人加入</span>
                         </div>
-                        <div class="index_itemRHotText">简介请控制字数</div>
+                        <div class="index_itemRHotText">5 大内容：教育工作、人物、事件、地点还有物品。</div>
                     </dd>
                 </dl>
                 <dl>
-                    <dt><a href="###"><img src="../img/48x48.png" width="48" height="48"></a></dt>
+                    <dt><a href="###"><img th:src="@{/img/48x48.png}" width="48" height="48"></a></dt>
                     <dd>
                         <div class="fn-clear">
-                            <span class="index_itemRHotName">你不做作就不会死</span>
-                            <span class="index_itemRHotPic"><img src="../img/index_itemRHot.png"></span>
+                            <span class="index_itemRHotName">ETS 宣布</span>
+                            <span class="index_itemRHotPic"><img th:src="@{/img/index_itemRHot.png}"></span>
                             <span class="index_itemRHotNum">234567人加入</span>
                         </div>
-                        <div class="index_itemRHotText">你不做作就不会死你不做作就不会死你不做作就不会死</div>
+                        <div class="index_itemRHotText">5 大内容：教育工作、人物、事件、地点还有物品。</div>
                     </dd>
                 </dl>
                 <dl>
-                    <dt><a href="###"><img src="../img/48x48.png" width="48" height="48"></a></dt>
+                    <dt><a href="###"><img th:src="@{/img/48x48.png}" width="48" height="48"></a></dt>
                     <dd>
                         <div class="fn-clear">
-                            <span class="index_itemRHotName">你不做作就不会死</span>
-                            <span class="index_itemRHotPic"><img src="../img/index_itemRHot.png"></span>
+                            <span class="index_itemRHotName">ETS 宣布</span>
+                            <span class="index_itemRHotPic"><img th:src="@{/img/index_itemRHot.png}"></span>
                             <span class="index_itemRHotNum">234567人加入</span>
                         </div>
-                        <div class="index_itemRHotText">你不做作就不会死你不做作就不会死你不做作就不会死</div>
+                        <div class="index_itemRHotText">5 大内容：教育工作、人物、事件、地点还有物品。</div>
                     </dd>
                 </dl>
             </div>
@@ -151,24 +116,24 @@
             </div>
             <div class="tfr_mstj">
                 <dl>
-                    <dt><a href="###"><img src="../img/tfr_mstj.png"></a></dt>
+                    <dt><a href="###"><img th:src="@{/img/tfr_mstj.png}"></a></dt>
                     <dd>
                         <h3 class="tfr_mstjH3">教师名字</h3>
-                        <a href="###">60分以下考生作业: 盛会杰老师 于2015-01-15日发作业</a>
+                        <a href="###">60分以下考生作业: 盛会杰老师 于2020-01-15日发作业</a>
                     </dd>
                 </dl>
                 <dl>
-                    <dt><a href="###"><img src="../img/tfr_mstj.png"></a></dt>
+                    <dt><a href="###"><img th:src="@{/img/tfr_mstj.png}"></a></dt>
                     <dd>
                         <h3 class="tfr_mstjH3">教师名字</h3>
-                        <a href="###">60分以下考生作业: 盛会杰老师 于2015-01-15日发作业</a>
+                        <a href="###">60分以下考生作业: 盛会杰老师 于2020-01-15日发作业</a>
                     </dd>
                 </dl>
                 <dl>
-                    <dt><a href="###"><img src="../img/tfr_mstj.png"></a></dt>
+                    <dt><a href="###"><img th:src="@{/img/tfr_mstj.png}"></a></dt>
                     <dd>
                         <h3 class="tfr_mstjH3">教师名字</h3>
-                        <a href="###">60分以下考生作业: 盛会杰老师 于2015-01-15日发作业</a>
+                        <a href="###">60分以下考生作业: 盛会杰老师 于2020-01-15日发作业</a>
                     </dd>
                 </dl>
             </div>

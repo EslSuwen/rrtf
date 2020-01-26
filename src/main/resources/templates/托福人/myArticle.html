@@ -89,8 +89,17 @@
 <script>
     var articleType = document.getElementsByName("articleType");
     for (var i = 0; i < articleType.length; i++) {
-        if (articleType[i].text === "0") {
-            articleType[i].text = "js 听力"
+        if (articleType[i].text === "1") {
+            articleType[i].text = "听力"
+        }
+        if (articleType[i].text === "2") {
+            articleType[i].text = "口语"
+        }
+        if (articleType[i].text === "3") {
+            articleType[i].text = "阅读"
+        }
+        if (articleType[i].text === "4") {
+            articleType[i].text = "写作"
         }
     }
 

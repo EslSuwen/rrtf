@@ -20,9 +20,6 @@
                 <a href="###" target="infor" id="basic">基本资料</a>
             </li>
             <li>
-                <a href="###" target="infor" id="teacherBasic">基本资料(教师)</a>
-            </li>
-            <li>
                 <a href="###" target="infor" id="imgUpload">头像设置</a>
             </li>
             <li>
@@ -71,70 +68,12 @@
             <dl>
                 <dt></dt>
                 <dd>
-                    <a href="###" class="userCenter_save">保存</a>
-                    <input type="submit">
+                    <a onclick="$('input[name=\'baseData\']').click();" class="userCenter_save">保存</a>
+                    <input name="baseData" type="submit" style="display: none">
                 </dd>
             </dl>
 
         </form>
-    </div>
-
-    <div class="userCenter" style="display: none;" id="teacherBasicContent">
-        <dl>
-            <dt>用户名：</dt>
-            <dd><input type="text" class="userCenter_input" value="用户名"></dd>
-        </dl>
-        <dl>
-            <dt>真实姓名：</dt>
-            <dd><input type="text" class="userCenter_input" value="真实姓名"></dd>
-        </dl>
-        <dl>
-            <dt>性别：</dt>
-            <dd>
-                <div class="userCenter_radio">
-                    <input name="sex" type="radio" value=""><span>男</span>
-                    <input name="sex" type="radio" value=""><span>女</span>
-                </div>
-            </dd>
-        </dl>
-        <dl>
-            <dt>学历：</dt>
-            <dd>
-                <div class="userCenter_radio">
-                    <input name="sc" type="radio" value=""><span>专科</span>
-                    <input name="sc" type="radio" value=""><span>本科</span>
-                    <input name="sc" type="radio" value=""><span>硕士</span>
-                    <input name="sc" type="radio" value=""><span>博士</span>
-                </div>
-            </dd>
-        </dl>
-
-        <dl>
-            <dt>邮箱：</dt>
-            <dd><input type="text" class="userCenter_input" value="dix1212121@163.com"></dd>
-        </dl>
-        <dl>
-            <dt>电话：</dt>
-            <dd><input type="text" class="userCenter_input" value="12345678901"></dd>
-        </dl>
-        <dl>
-            <dt>出生日期：</dt>
-            <dd>
-                <input type="date" class="userCenter_input" value="">
-            </dd>
-        </dl>
-        <dl>
-            <dt>自我介绍：</dt>
-            <dd><textarea cols="" rows="" class="userCenter_t">最近土豪牛大了，昨晚说今天南北车还要板，今天果然又板！</textarea>
-                <p class="userCenter_text">请输入2-100个字符</p>
-            </dd>
-        </dl>
-        <dl>
-            <dt></dt>
-            <dd>
-                <a href="###" class="userCenter_save">保存</a>
-            </dd>
-        </dl>
     </div>
 
     <div class="userCenter" style="display: none;" id="passwordChangeContent">

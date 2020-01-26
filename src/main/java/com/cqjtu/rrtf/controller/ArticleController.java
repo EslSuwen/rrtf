@@ -201,10 +201,6 @@ public class ArticleController {
 
     // 文章字数限制
     for (Article each : articleList) {
-
-      if (!each.getUserNo().equals(userNo)) {
-        continue;
-      }
       if (each.getArtText().length() >= 200) {
         each.setArtText(each.getArtText().substring(0, 200) + "......");
       }
