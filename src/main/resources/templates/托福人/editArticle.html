@@ -17,7 +17,7 @@
     <form class="form-horizontal" method="post" th:action="@{/article/update}" th:object="${article}"
           enctype="multipart/form-data">
 
-        <input th:field="*{artNo}">
+        <input th:field="*{artNo}" style="display: none">
         <div class="form-group">
             <label class="col-sm-2 control-label">宣传图片</label>
             <div class="col-sm-10">
