@@ -34,13 +34,13 @@
 
 *登录*
 
-![登录](https://img2018.cnblogs.com/blog/1545358/202001/1545358-20200127131130781-2063136784.png)
+![登录](./assets/2.png)
 
 </br>
 
 *主页*
 
-![2_index](https://img2018.cnblogs.com/blog/1545358/202001/1545358-20200127131156568-9391865.png)
+![2_index](./assets/1.png)
 
 
 </br>
@@ -48,7 +48,7 @@
 
 *文章主页*
 
-![3_article_home](https://img2018.cnblogs.com/blog/1545358/202001/1545358-20200127131217144-925640488.png)
+![3_article_home](./assets/3.png)
 
 
 </br>
@@ -56,7 +56,7 @@
 
 *个人中心*
 
-![4_profile](https://img2018.cnblogs.com/blog/1545358/202001/1545358-20200127131240579-239814235.png)
+![4_profile](./assets/4.png)
 
 
 </br>
@@ -65,4 +65,4 @@
 
 *创建文章*
 
-![5_article_add](https://img2018.cnblogs.com/blog/1545358/202001/1545358-20200127131304550-132435246.png)
+![5_article_add](./assets/5.png)
