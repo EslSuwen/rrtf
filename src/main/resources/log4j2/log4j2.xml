@@ -2,10 +2,10 @@
 <Configuration>
 
     <Properties>
-        <Property name="TEST_LOG">E:\IDEA\DocumentSystem\test-log</Property>
+        <Property name="TEST_LOG">./IDEA/DocumentSystem/test-log</Property>
         <Property name="TEST_LOG_FILE_NAME">test</Property>
 
-        <Property name="LOG_HOME">E:\IDEA\DocumentSystem\logs</Property>
+        <Property name="LOG_HOME">./IDEA/DocumentSystem/logs</Property>
         <Property name="INFO_LOG_FILE_NAME">info</Property>
     </Properties>
 
